@@ -1,0 +1,40 @@
+import Link from "next/link"
+import Image from "next/image"
+import type { Post } from "@/app/_data/posts";
+
+function PostCard({post}: {post:Post}) {
+
+  const date = new Date(post.createdAt)
+  const formattedDate = `${date.getFullYear()}年${date.getMonth() +1}月${date.getDate()}日`
+
+  return (
+    <Link href={`/posts/${post.id}`}>
+
+    <div className="flex items-start border-b border-gray-200 gap-4 py-4">
+
+      <Image
+        className="w-50 h-30 object-cover shrink-0"
+        src={post.thumbnailUrl}
+        alt={post.title}
+        width={800}
+        height={400}
+      />
+    
+    <div className="flex flex-col gap-2">
+
+      <div className="flex gap-2 items-center">
+        <p className="text-[0.95rem] text-gray-600">{formattedDate}</p>
+        <p className="flex gap-1.5">{post.categories.map((category)=>(<span className="bg-gray-200 text-gray-700 rounded-full px-2 py-1 text-[0.85rem]" key={category}>{category}</span>))}</p>
+      </div>
+
+        <h2 className="font-bold text-lg">{post.title}</h2>
+        <div className="line-clamp-2 leading-[1.6] text-gray-700" dangerouslySetInnerHTML = {{ __html:post.content}}/>
+
+    </div>
+
+    </div>
+    </Link>
+  )
+}
+
+export default PostCard
